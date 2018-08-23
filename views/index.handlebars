@@ -1,0 +1,44 @@
+<h1>ESPN Fantasy Football Articles!</h1>
+
+{{#each articles}}
+    <h2>{{title}}</h2>
+    <p>Article ID: {{id}}</p>
+    <p>{{summary}}</p>
+    <a href="{{link}}">{{link}}</a>
+    <h4>Comments:</h4>
+    <p>{{note}}</p>
+    <h4>Add Comment</h4>
+    <textarea class='bodyinput' name='body'></textarea><br>
+    <button data-id={{id}} id='savenote'>Save Note</button>
+{{/each}}
+{{!-- <ul>
+  {{#each cats}}
+    {{#unless sleepy}}
+      {{> cats/cat-block sleep=true}}
+    {{/unless}}
+  {{/each}}
+</ul> --}}
+
+<script>
+  $(document).on("click", "#savenote", function() {
+    
+    var thisId = $(this).attr("data-id");
+  
+    $.ajax({
+       method: "POST",
+       url: "/articles/" + thisId,
+       data: {
+         body: $(".bodyinput").val()
+       }
+     })
+       .then(function(data) {
+         console.log(data);
+         $("#notes").empty();
+         location.reload()
+       });  
+     $(".bodyinput").val("");
+  });
+
+
+</script>
+
